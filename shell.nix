@@ -12,10 +12,12 @@ pkgs.mkShellNoCC {
     ];
 
     shellHook = ''
+        echo "Cleaning www"
+        rm -rf www
         mkdir www
         mkdir www/css
-        echo "Cleaning ./www/js"
-        rm -rf ./www/js/*
+        mkdir www/res
+        mkdir www/js
         echo "Compiling Typescript files in ./typescript to ./www/js"
         tsc --project ./tsconfig.json
         echo "Uglifying Javascript files with Yuicompressor"
@@ -24,6 +26,7 @@ pkgs.mkShellNoCC {
         find ./css -name "*.css" -exec sh -c 'yuicompressor "$0" -o "./www/css/$(basename "$0")"' {} \;
         echo "Copying HTML files"
         cp -r ./html/* ./www
+        cp -r ./res/* ./www/res
         echo "Starting HTTP server"
         cd www
         python3 -m http.server 8080

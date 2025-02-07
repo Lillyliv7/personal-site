@@ -1,11 +1,11 @@
 
 .content-box {
-    position:inherit;
     padding: 1em;
     margin: 1em;
     background-color: #0000001a;
-    width: 90%;
+    width: 95%;
     border-radius: 5px;
+    justify-self: center;
 }
 .content-box-title {
     font-size: 1.5em;
