@@ -21,9 +21,9 @@ pkgs.mkShellNoCC {
         echo "Compiling Typescript files in ./typescript to ./www/js"
         tsc --project ./tsconfig.json
         echo "Uglifying Javascript files with Yuicompressor"
-        find ./www/js -name "*.js" -size +0c -exec yuicompressor {} -o {} \;
+        find ./www/js -name "*.js" -size +0c -exec yuicompressor -v {} -o {} \;
         echo "Uglifying CSS files with Yuicompressor"
-        find ./css -name "*.css" -exec sh -c 'yuicompressor "$0" -o "./www/css/$(basename "$0")"' {} \;
+        find ./css -name "*.css" -exec sh -c 'yuicompressor -v "$0" -o "./www/css/$(basename "$0")"' {} \;
         echo "Copying HTML files"
         cp -r ./html/* ./www
         cp -r ./res/* ./www/res
