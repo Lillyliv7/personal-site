@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="js/urlReformat.js" charset="UTF-8"></script>
+        <script src="js/main.js" charset="UTF-8"></script>
+        <script defer src="js/langpopup.js" charset="UTF-8"></script>
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/modal.css">
+    </head>
+    <body>
+        <div id="root">
+            <div id="langPopup" class="modal">
+                <div class="modal-content">
+                    <p>Esta página está disponsible en español, ¿quieres ir allí ahora?</p>
+                    <div class="modal-buttons">
+                        <button class="modal-no-btn" onclick="langPopupCallback(false)">No</button>
+                        <button class="modal-yes-btn" onclick="langPopupCallback(true)">Sí</button>
+                    </div>
+                </div>
+            </div>
+            <div id="head">
+                <div id="head-content" onclick="location='test.html'">Lilly's site</div>
+            </div>
+            <div id="main">
+                <div class="content-box">
+                    <div class="content-box-title">This Site</div>
+                    <div class="content-box-insite">You can find it on <a href="https://github.com/Lillyliv7/personal-site">github</a></div>
+                </div>
+                <div class="content-box">
+                    <div class="content-box-title">Me</div>
+                    <div class="content-box-insite">I'm Lilly/Lillith</div>
+                </div>
+            </div>
+            <div id="foot">
+
+            </div>
+        </div>
+    </body>
+</html>
