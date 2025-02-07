@@ -1,2 +1,2 @@
 var message = 'teehee';
-alert(message);
+console.log(message);

@@ -1,2 +1,2 @@
 let message: string = 'teehee';
-alert(message);
+console.log(message);
