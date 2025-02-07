@@ -3,7 +3,7 @@ let
   pkgs = import nixpkgs { config = {}; overlays = []; };
 in
 
-pkgs.mkShell {
+pkgs.mkShellNoCC {
     buildInputs = [
         pkgs.nodejs
         pkgs.typescript
