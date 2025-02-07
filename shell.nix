@@ -12,6 +12,7 @@ pkgs.mkShellNoCC {
     ];
 
     shellHook = ''
+        mkdir www
         echo "Cleaning ./www/js"
         rm -rf ./www/js/*
         echo "Compiling Typescript files in ./typescript to ./www/js"
