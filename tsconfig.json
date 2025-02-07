@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
-      "outDir": "./www/js",
-      "target": "ES2015",
-      "module": "commonjs",
-      "sourceMap": false,
-      "removeComments": true
+        "outDir": "./www/js",
+        "target": "ES2015",
+        "module": "commonjs",
+        "sourceMap": false,
+        "removeComments": true,
+        "listEmittedFiles": true
     },
     "include": [
-      "./typescript/*.ts"
+        "./typescript/*.ts"
     ],
     "exclude": []
-  }
+}
