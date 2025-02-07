@@ -3,7 +3,8 @@
       "outDir": "./www/js",
       "target": "ES2015",
       "module": "commonjs",
-      "sourceMap": false
+      "sourceMap": false,
+      "removeComments": true
     },
     "include": [
       "./typescript/*.ts"
