@@ -5,7 +5,7 @@ html, body {
 }
 
 a {
-    color:rgb(79, 79, 255);
+    color:#4f4fff;
 }
 
 #main {
@@ -29,5 +29,5 @@ a {
     border-width: 3px;
     border-color: rgb(39, 39, 39);
     background-color: white ;
-    box-shadow: 0px 5px 15px 1px rgba(0, 0, 0, 0.49);
+    box-shadow: 0px 5px 15px 1px #00000080;
 }
