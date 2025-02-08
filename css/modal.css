@@ -1,6 +1,6 @@
 /* Modal Styles */
 .modal {
-    display: none; /* Ensure it is hidden initially */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -18,10 +18,13 @@
     border-radius: 8px;
     text-align: center;
     box-shadow: 0px 4px 6px #0000001a;
+    min-width: 300px;
 }
+
 .modal-buttons {
     margin-top: 15px;
 }
+
 .modal-buttons button {
     margin: 5px;
     padding: 10px 20px;
@@ -30,11 +33,64 @@
     border: none;
     border-radius: 5px;
 }
+
 .modal-yes-btn {
     background: #008000e6;
     color: white;
 }
+
 .modal-no-btn {
     background: #ff0000e6;
     color: white;
+}
+
+.remember-switch {
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.remember-switch label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remember-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    margin-right: 8px;
+    transition: .4s;
+}
+
+.switch-slider:before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+input:checked + .switch-slider {
+    background-color: #2196F3;
+}
+
+input:checked + .switch-slider:before {
+    transform: translateX(20px);
 }

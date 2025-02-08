@@ -1,10 +1,12 @@
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <script src="js/urlReformat.js" charset="UTF-8"></script>
         <script src="js/main.js" charset="UTF-8"></script>
-        <script defer src="js/langpopup.js" charset="UTF-8"></script>
+        <script defer src="js/language.js" charset="UTF-8"></script>
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/modal.css">
@@ -15,6 +17,13 @@
             <div id="langPopup" class="modal">
                 <div class="modal-content">
                     <p>This page is available in English, go there now?</p>
+                    <div class="remember-switch">
+                        <label>
+                            <input type="checkbox" id="rememberDecision">
+                            <span class="switch-slider"></span>
+                            Remember my decsision (with a cookie in localStorage)
+                        </label>
+                    </div>
                     <div class="modal-buttons">
                         <button class="modal-no-btn" onclick="langPopupCallback(false)">No</button>
                         <button class="modal-yes-btn" onclick="langPopupCallback(true)">Yes</button>
@@ -30,7 +39,7 @@
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
-                    <img title="English" src="./res/language.svg" alt="Language Icon" class="svg-social-icon" onclick="window.location.href = localizeUrl(window.location.href, 'en');">
+                    <img title="español" src="./res/language.svg" alt="Language Icon" class="svg-social-icon" onclick="languageButton();">
                 </div>
             </div>
             <div id="main">
@@ -42,8 +51,6 @@
                     <div class="content-box-title">Yo</div>
                     <div class="content-box-insite">Soy Lily/Lillith</div>
                 </div>
-
-
 
             </div>
             <div id="foot">
