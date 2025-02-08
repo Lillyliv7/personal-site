@@ -1,7 +1,14 @@
-// turn a url like https://example.com/hello.html into https://example.com/hello-es.html
-function localizeUrl(url: string): string {
-    console.log("created url "+ url.replace(/(\/[^\/]+)(\.\w+)$/, '$1-es$2') + " from " + url);
-    return url.replace(/(\/[^\/]+)(\.\w+)$/, '$1-es$2');
+function localizeUrl(url: string, lang: string): string {
+    // Remove a trailing "-xx" language code (if any) that immediately precedes ".html"
+    var urlWithoutLang = url.replace(/(-[a-z]{2})(?=\.html$)/i, '');
+    
+    // For English, return the URL without any language code.
+    if (lang === 'en') {
+        return urlWithoutLang;
+    }
+    
+    // For other languages, insert the language code before ".html"
+    return urlWithoutLang.replace(/\.html$/, '-' + lang + '.html');
 }
 
 // create a popup to ask the user if they want to switch to the spanish version of the page
@@ -16,13 +23,14 @@ function hideLangPopup() {
 }
 
 function langPopupCallback(answer: boolean) {
-    if(answer) window.location.href = localizeUrl(window.location.href);
-    else hideLangPopup();
+    if (!window.location.href.includes("es.html")) {
+        if(answer) window.location.href = localizeUrl(window.location.href, 'es');
+        else hideLangPopup();
+    } else {
+        if(answer) window.location.href = localizeUrl(window.location.href, 'en');
+        else hideLangPopup();
+    }
 }
-// ask the user if they would like to view the spanish version of a webpage if their browser language is in spanish and they are viewing an english version
-if (navigator.language.startsWith('es') && !window.location.href.endsWith("-es.html")) {
-    // const choice: boolean = window.confirm("Esta página está disponsible en español, ¿quieres ir allí ahora?");
-    // if (choice)
-        // window.location.href = localizeUrl(window.location.href);
+if ((navigator.language.startsWith('es') && !window.location.href.endsWith("-es.html")) || (navigator.language.startsWith('en') && window.location.href.endsWith("-es.html"))) {
     displayLangPopup();
 }

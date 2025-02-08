@@ -8,15 +8,16 @@
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/modal.css">
+        <link rel="stylesheet" href="css/switch.css">
     </head>
     <body>
         <div id="root">
             <div id="langPopup" class="modal">
                 <div class="modal-content">
-                    <p>Esta página está disponible en español, ¿quieres ir allí ahora?</p>
+                    <p>This page is available in English, go there now?</p>
                     <div class="modal-buttons">
                         <button class="modal-no-btn" onclick="langPopupCallback(false)">No</button>
-                        <button class="modal-yes-btn" onclick="langPopupCallback(true)">Sí</button>
+                        <button class="modal-yes-btn" onclick="langPopupCallback(true)">Yes</button>
                     </div>
                 </div>
             </div>
@@ -24,6 +25,13 @@
                 <div class="pseudo-button" id="head-content" onclick="location='test.html'">Sitio de Lily</div>
                 <img title="https://discord.com/users/1319300438843068426" src="./res/discord.svg" alt="Discord Logo" class="svg-social-icon" onclick="location='https://discord.com/users/1319300438843068426'">
                 <img title="https://github.com/Lillyliv7/personal-site" src="./res/github.svg" alt="Discord Logo" class="svg-social-icon" onclick="location='https://github.com/Lillyliv7/personal-site'">
+                <div id="head-rightside-container">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                    <img title="español" src="./res/language.svg" alt="Language Icon" class="svg-social-icon" onclick="window.location.href = localizeUrl(window.location.href, 'en');">
+                </div>
             </div>
             <div id="main">
                 <div class="content-box">
@@ -34,6 +42,9 @@
                     <div class="content-box-title">Yo</div>
                     <div class="content-box-insite">Soy Lily/Lillith</div>
                 </div>
+
+
+
             </div>
             <div id="foot">
 
