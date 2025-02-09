@@ -15,6 +15,6 @@ html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --r
 cp -r ./res/* ./www/res
 echo "Starting HTTP server"
 cd www
-python3 -m http.server 8080
+python3 -m http.server 8080 --bind 127.0.0.1
 echo "Server exited"
 exit
