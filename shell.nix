@@ -14,6 +14,7 @@ pkgs.mkShellNoCC {
 
     shellHook = ''
         echo "bash run.bash"
+        cd script
         bash run.bash
         echo "Exiting Nix environment"
         exit
