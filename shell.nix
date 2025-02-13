@@ -10,9 +10,16 @@ pkgs.mkShellNoCC {
         pkgs.python3
         pkgs.yuicompressor
         pkgs.html-minifier
+        pkgs.gcc
+        pkgs.libxml2
+        pkgs.pkg-config
     ];
 
     shellHook = ''
+        mkdir build
+        echo "compile c scripts"
+        gcc c/injectcss.c -o build/injectcss $(pkg-config --cflags --libs libxml-2.0)
+        ./build/injectcss ./html/ ./css/ ./www/
         echo "bash run.bash"
         cd script
         bash run.bash
