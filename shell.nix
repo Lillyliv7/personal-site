@@ -8,6 +8,8 @@ pkgs.mkShellNoCC {
         pkgs.nodejs
         pkgs.typescript
         pkgs.python3
+        pkgs.python3Packages.flask
+        pkgs.python3Packages.gunicorn
         pkgs.yuicompressor
         pkgs.html-minifier
         pkgs.gcc
@@ -23,6 +25,8 @@ pkgs.mkShellNoCC {
         echo "bash run.bash"
         cd script
         bash run.bash
+        # python3 serve.py
+        gunicorn -w 4 -b 0.0.0.0:80 serve:app
         echo "Exiting Nix environment"
         exit
     '';

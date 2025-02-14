@@ -16,7 +16,7 @@ echo "Uglifying HTML files"
 html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true --input-dir ./html --output-dir ./www
 cp -r ./res/* ./www/res
 echo "Starting HTTP server"
-cd www
-python3 -m http.server 80
-echo "Server exited"
+# cd www
+# nginx -c nginx.conf
+# echo "Server exited"
 exit
