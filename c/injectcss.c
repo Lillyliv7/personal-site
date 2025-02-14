@@ -45,6 +45,20 @@ cvector_vector_type(char*) getFilesInDir(const char* location, const char* filet
     return list;
 }
 
+char* readFile(const char* filename) {
+    FILE* f = fopen(filename, "rb"); // open file
+
+    fseek(f, 0, SEEK_END); // get filesize and allocate buffer
+    unsigned long long bufsize = ftell(f);
+    char* buf = malloc(bufsize+1);
+
+    fseek(f, 0, SEEK_SET); // go back to the start
+
+    fread(buf, bufsize, 1, f); // read file into buffer and close
+    fclose(f);
+    buf[bufsize] = 0;
+}
+
 void printErr(const char* string) {
     printf("\033[0;31mINJECTCSS: %s\033[0m\n", string);
 }
@@ -59,7 +73,7 @@ int main(int argc, char** argv) {
     if (!(isDirectory(argv[1]) && isDirectory(argv[2]) && isDirectory(argv[3]))) {
         printErr("Error directory does not exist");
     }
-    
+
     cvector_vector_type(char*) list = getFilesInDir("./css/", ".css");
     for (int i = 0; i < cvector_size(list); i++)
         puts(list[i]);
