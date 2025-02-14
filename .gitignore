@@ -2,3 +2,4 @@ www/
 .vscode/
 build/
 script/__pycache__/*.pyc
+script/__pycache__/
