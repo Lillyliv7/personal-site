@@ -1,4 +1,4 @@
 www/
 .vscode/
 build/
-script/__pycache__/
+script/__pycache__/*.pyc
