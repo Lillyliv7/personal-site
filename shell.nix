@@ -25,7 +25,7 @@ pkgs.mkShellNoCC {
         echo "bash run.bash"
         cd script
         bash run.bash
-        # python3 serve.py
+        echo "Starting HTTP server"
         gunicorn -w 4 -b 0.0.0.0:80 serve:app
         echo "Exiting Nix environment"
         exit
