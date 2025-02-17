@@ -3,7 +3,7 @@ function newTab(url: string){
 }
 
 
-const socket = new WebSocket("wss://imlillith888.xyz:3000", "stats-protocol");
+const socket = new WebSocket("ws://imlillith888.xyz:3000", "stats-protocol");
 
 socket.onopen = () => {
     console.log("Connected to WebSocket server with protocol:", socket.protocol);
