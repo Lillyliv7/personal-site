@@ -13,7 +13,7 @@ volatile cvector_vector_type(char*)* list;
 bool verifyUser(const char* ip) {
     printf("WSSERVER: checking user %s\n", ip);
     for(unsigned long long i = 0; i < cvector_size(*list); i++) {
-        if(strcmp(ip, *list[i])) {
+        if(!strcmp(ip, *list[i])) {
             printf("WSSERVER: user %s is not unique\n", ip);
             connections_number++;
             return false;
@@ -33,10 +33,18 @@ static int statsCallback(struct lws *wsi, enum lws_callback_reasons reason, void
             lws_get_peer_simple(wsi, user_ip, 19);
             verifyUser(user_ip);
             break;
-        case LWS_CALLBACK_RECEIVE:
-            // Send the client the total number of unique visitors so far
-            lws_write(wsi, in, 8, connections_number);
+        case LWS_CALLBACK_RECEIVE: {
+            const char *message = "unique visitors: X"; // build your message accordingly
+            size_t message_len = strlen(message);
+            unsigned char buf[LWS_PRE + message_len];
+            memcpy(&buf[LWS_PRE], message, message_len);
+            lws_write(wsi, &buf[LWS_PRE], message_len, LWS_WRITE_TEXT);
             break;
+        }
+        //     // Send the client the total number of unique visitors so far
+        //     lws_write(wsi, in, 8, connections_number);
+        //     break;
+        
         case LWS_CALLBACK_CLOSED:
             printf("WSSERVER: Connection closed\n");
             break;
