@@ -3,17 +3,19 @@
 #include <string.h>
 #include <stdbool.h>
 #include <libwebsockets.h>
-
 #include "cvector.h"
 
 #define PORT 3000
+
 volatile unsigned int connections_number = 0;
-volatile cvector_vector_type(char*)* list;
+// Declare the vector as a variable (not a pointer)
+volatile cvector_vector_type(char*) list = NULL;
 
 bool verifyUser(const char* ip) {
     printf("WSSERVER: checking user %s\n", ip);
-    for(unsigned long long i = 0; i < cvector_size(*list); i++) {
-        if(!strcmp(ip, *list[i])) {
+    for (unsigned long long i = 0; i < cvector_size(list); i++) {
+        // strcmp returns 0 if the strings are equal
+        if (strcmp(ip, list[i]) == 0) {
             printf("WSSERVER: user %s is not unique\n", ip);
             connections_number++;
             return false;
@@ -21,33 +23,60 @@ bool verifyUser(const char* ip) {
     }
 
     printf("WSSERVER: user %s is unique\n", ip);
-    cvector_push_back(*list, ip);
+    // Duplicate the string so that the vector owns its own copy
+    cvector_push_back(list, strdup(ip));
     return true;
 }
 
-static int statsCallback(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
+static int statsCallback(struct lws *wsi, enum lws_callback_reasons reason,
+                           void *user, void *in, size_t len) {
     switch (reason) {
-        case LWS_CALLBACK_ESTABLISHED:
+
+        case LWS_CALLBACK_ESTABLISHED: {
             printf("WSSERVER: Connection established\n");
-            char* user_ip = malloc(20);
+            char *user_ip = malloc(20);
+            if (!user_ip) {
+                lwsl_err("Memory allocation failed\n");
+                return -1;
+            }
             lws_get_peer_simple(wsi, user_ip, 19);
             verifyUser(user_ip);
-            break;
-        case LWS_CALLBACK_RECEIVE: {
-            const char *message = "unique visitors: X"; // build your message accordingly
-            size_t message_len = strlen(message);
-            unsigned char buf[LWS_PRE + message_len];
-            memcpy(&buf[LWS_PRE], message, message_len);
-            lws_write(wsi, &buf[LWS_PRE], message_len, LWS_WRITE_TEXT);
+            free(user_ip);
             break;
         }
-        //     // Send the client the total number of unique visitors so far
-        //     lws_write(wsi, in, 8, connections_number);
-        //     break;
-        
+
+        case LWS_CALLBACK_RECEIVE:
+            // Instead of writing immediately, schedule a writable callback.
+            lws_callback_on_writable(wsi);
+            break;
+
+        case LWS_CALLBACK_SERVER_WRITEABLE: {
+            const char *message = "unique visitors: X";  // Adjust as needed
+            size_t message_len = strlen(message);
+
+            // Allocate a temporary buffer with LWS_PRE bytes reserved.
+            unsigned char *buf = malloc(LWS_PRE + message_len);
+            if (!buf) {
+                lwsl_err("Out of memory\n");
+                return -1;
+            }
+            memcpy(buf + LWS_PRE, message, message_len);
+
+            // Write the message. Note that lws_write expects the pointer to start at LWS_PRE.
+            int n = lws_write(wsi, buf + LWS_PRE, message_len, LWS_WRITE_TEXT);
+            free(buf);
+
+            if (n < (int)message_len) {
+                lwsl_err("lws_write failed\n");
+                return -1;
+            }
+            break;
+        }
+
         case LWS_CALLBACK_CLOSED:
             printf("WSSERVER: Connection closed\n");
             break;
+
         default:
             break;
     }
@@ -57,14 +86,12 @@ static int statsCallback(struct lws *wsi, enum lws_callback_reasons reason, void
 // Define the WebSocket protocol
 static struct lws_protocols protocols[] = {
     { "stats-protocol", statsCallback, 0, 0 },
-    { NULL, NULL, 0, 0 } // End of protocols
+    { NULL, NULL, 0, 0 }  // End of protocols
 };
 
 int main(int argc, char **argv) {
-    // create cvector of visitors in the past
-    cvector_init(*list, 500, NULL);
-
-
+    // Initialize the cvector
+    cvector_init(list, 500, NULL);
 
     // WebSocket server context setup
     struct lws_context_creation_info info;
