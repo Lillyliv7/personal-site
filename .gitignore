@@ -3,3 +3,4 @@ www/
 build/
 script/__pycache__/*.pyc
 script/__pycache__/
+users/
