@@ -26,10 +26,6 @@ pkgs.mkShellNoCC {
         gcc c/injectcss.c -o build/injectcss $(pkg-config --cflags --libs libxml-2.0)
         ./build/injectcss ./html/ ./css/ ./www/
 
-        gcc c/wsServer.c -o build/wsServer -lwebsockets
-        mkdir users
-        ./build/wsServer &
-
         echo "bash run.bash"
         cd script
         bash run.bash
