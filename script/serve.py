@@ -16,14 +16,14 @@ def is_hosting_provider(ip):
 
 @app.before_request
 def log_user():
-    if is_hosting_provider(request.remote_addr):
+    if is_hosting_provider(request.headers.get("CF-Connecting-IP", request.remote_addr)):
         abort(403)
         f = open("../log/useragents.log","a")
-        f.write("HOSTING BLOCKED " + request.remote_addr + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
+        f.write("HOSTING BLOCKED " + request.headers.get("CF-Connecting-IP", request.remote_addr) + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
         f.close()
         return
     f = open("../log/useragents.log","a")
-    f.write(request.remote_addr + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
+    f.write(request.headers.get("CF-Connecting-IP", request.remote_addr) + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
     f.close()
 
 # Explicitly serve index.html when accessing the root URL.
