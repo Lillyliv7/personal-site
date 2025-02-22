@@ -17,7 +17,7 @@ def is_blocked(ip):
 
     except Exception as e:
         print(f"Error checking IP: {e}")
-        return False  # Fail-safe: Allow access if API fails
+        return True  # dissallow access if the api fails
 
 @app.before_request
 def log_user():
