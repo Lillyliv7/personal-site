@@ -1,15 +1,31 @@
-from flask import Flask, request
+from flask import Flask, request, abort
+import requests
 import time
 
 # Configure Flask to serve static files from the 'www' folder at the root URL.
 app = Flask(__name__, static_folder='../www', static_url_path='')
-
+# Function to check if the IP is from a hosting provider
+def is_hosting_provider(ip):
+    try:
+        response = requests.get(f"http://ip-api.com/json/{ip}?fields=16826371", timeout=5)
+        data = response.json()
+        return data.get("hosting", False)  # Default to False if not present
+    except Exception as e:
+        print(f"Error checking IP: {e}")
+        return False  # Fail-safe: Allow access if API fails
 
 @app.before_request
 def log_user():
+    if is_hosting_provider(request.remote_addr):
+        abort(403)
+        f = open("../log/useragents.log","a")
+        f.write("HOSTING BLOCKED " + request.remote_addr + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
+        f.close()
+        return
     f = open("../log/useragents.log","a")
     f.write(request.remote_addr + ": " + request.headers.get('User-Agent')+ " at " + str(time.time())+ " for " + request.path + '\n')
     f.close()
+
 # Explicitly serve index.html when accessing the root URL.
 @app.route('/')
 def index():
