@@ -31,7 +31,7 @@ pkgs.mkShellNoCC {
         cd script
         bash run.bash
         echo "Starting HTTP server"
-        gunicorn -w 4 -b 0.0.0.0:8080 serve:app
+        gunicorn -w 4 -b 0.0.0.0:80 serve:app
         echo "Exiting Nix environment"
         exit
     '';
