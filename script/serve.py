@@ -8,7 +8,7 @@ app = Flask(__name__, static_folder='../www', static_url_path='')
 # Function to check if the IP is from a hosting provider
 def is_hosting_provider(ip):
     try:
-        response = json.loads(requests.get(f"http://ip-api.com/json/{ip}?fields=16826371", timeout=5).text())
+        response = json.loads(requests.get(f"http://ip-api.com/json/{ip}?fields=16826371", timeout=5).text)
         return response["hosting"]
     except Exception as e:
         print(f"Error checking IP: {e}")
