@@ -10,6 +10,7 @@ pkgs.mkShellNoCC {
         pkgs.python3
         pkgs.python3Packages.flask
         pkgs.python3Packages.gunicorn
+        pkgs.python3Packages.requests
         pkgs.yuicompressor
         pkgs.html-minifier
         pkgs.gcc
@@ -30,7 +31,7 @@ pkgs.mkShellNoCC {
         cd script
         bash run.bash
         echo "Starting HTTP server"
-        gunicorn -w 4 -b 0.0.0.0:80 serve:app
+        gunicorn -w 4 -b 0.0.0.0:8080 serve:app
         echo "Exiting Nix environment"
         exit
     '';

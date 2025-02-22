@@ -2,6 +2,7 @@ cd ..
 echo "Cleaning www"
 rm -rf www
 mkdir www
+mkdir log
 mkdir www/css
 mkdir www/res
 mkdir www/js
